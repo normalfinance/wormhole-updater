@@ -50,6 +50,14 @@ pub mod updater {
     ) -> Result<()> {
         instructions::verify_query(ctx, bytes, guardian_set_index)
     }
+
+    // Takes the cross chain query response for the stake pool on Ethereum and stores the result.
+    pub fn update_pool(
+        ctx: Context<UpdatePool>,
+        bytes: Vec<u8>,
+        guardian_set_index: u32
+    ) -> Result<()> {
+        instructions::update_pool(ctx, bytes, guardian_set_index)
     }
 
     pub fn get_rate(ctx: Context<GetRate>) -> Result<u32> {

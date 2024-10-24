@@ -50,4 +50,7 @@ pub enum ErrorCode {
 
     #[msg("UnexpectedDataLength")]
     UnexpectedDataLength = 0x114,
+
+    #[msg("UnexpectedResultLength")]
+    UnexpectedResultLength = 0x115,
 }
