@@ -34,4 +34,18 @@ pub enum ErrorCode {
 
     #[msg("FailedToParseResponse")]
     FailedToParseResponse = 0x110,
+
+    /// From (https://github.com/jito-foundation/jitosol-wormhole-updater/blob/main/src/StakePoolRate.sol#L8)
+
+    #[msg("InvalidAccount")]
+    InvalidAccount = 0x111,
+
+    #[msg("InvalidAccountOwner")]
+    InvalidAccountOwner = 0x112,
+
+    #[msg("InvalidForeignChainID")]
+    InvalidForeignChainID = 0x113,
+
+    #[msg("UnexpectedDataLength")]
+    UnexpectedDataLength = 0x114,
 }
