@@ -21,12 +21,15 @@ Read more on how the Normal Protocol uses this Wormhole Updater in [our docs](ht
 ### Accounts
 
 - [GuardianSignatures](programs/updater/src/state/guardian_signatures.rs) stores unverified guardian signatures for subsequent verification. These are created with `post_signatures` in service of verifying a root via Queries and closed when that root is verified with `verify_query` or can be explicitly closed with `close_signatures` by the initial payer.
+- [State](programs/updater/src/state/state.rs) stores config variables relevant to receiving and verifying a staking pool rate and making it available for consumption.
 
 ### Instructions
 
 - [post_signatures](programs/updater/src/instructions/post_signatures.rs) posts unverified guardian signatures for verification during `update_root_with_query`.
 - [verify_query](programs/updater/src/instructions/verify_query.rs) with a Query response and `GuardianSignatures` account, verifies the signatures against an active guardian set and logs the Query response. This is where you would add additional verification relevant to your use case and process the result.
 - [close_signatures](programs/updater/src/instructions/close_signatures.rs) allows the initial payer to close a `GuardianSignatures` account in case the query was invalid.
+- [update_pool](programs/updater/src/instructions/update_pool.rs) takes the cross chain query response for the stake pool on Ethereum and stores the result.
+- [get_rate](programs/updater/src/instructions/get_rate.rs) reads the current `total_active_stake` from `State` if not stale.
 
 ## Testing
 
