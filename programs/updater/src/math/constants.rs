@@ -1,0 +1,2 @@
+// CHAIN ID CONSTANTS
+pub const ETHEREUM_CHAIN_ID: u32 = 1;
