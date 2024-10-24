@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-use crate::{error::ExampleQueriesSolanaVerifyError, state::GuardianSignatures};
+use crate::{ error::ErrorCode, state::GuardianSignatures };
 
 #[derive(Accounts)]
 #[instruction(_guardian_signatures: Vec<[u8; 66]>, total_signatures: u8)]
@@ -31,25 +31,20 @@ pub struct PostSignatures<'info> {
 pub fn post_signatures(
     ctx: Context<PostSignatures>,
     mut guardian_signatures: Vec<[u8; 66]>,
-    _total_signatures: u8,
+    _total_signatures: u8
 ) -> Result<()> {
     if ctx.accounts.guardian_signatures.is_initialized() {
         require_eq!(
             ctx.accounts.guardian_signatures.refund_recipient,
             ctx.accounts.payer.key(),
-            ExampleQueriesSolanaVerifyError::WriteAuthorityMismatch
+            ErrorCode::WriteAuthorityMismatch
         );
-        ctx.accounts
-            .guardian_signatures
-            .guardian_signatures
-            .append(&mut guardian_signatures);
+        ctx.accounts.guardian_signatures.guardian_signatures.append(&mut guardian_signatures);
     } else {
-        ctx.accounts
-            .guardian_signatures
-            .set_inner(GuardianSignatures {
-                refund_recipient: ctx.accounts.payer.key(),
-                guardian_signatures,
-            });
+        ctx.accounts.guardian_signatures.set_inner(GuardianSignatures {
+            refund_recipient: ctx.accounts.payer.key(),
+            guardian_signatures,
+        });
     }
     // Done.
     Ok(())

@@ -10,7 +10,7 @@ pub(crate) use instructions::*;
 pub mod state;
 
 #[program]
-pub mod example_queries_solana_verify {
+pub mod updater {
     use super::*;
 
     pub fn initialize(_ctx: Context<Initialize>) -> Result<()> {

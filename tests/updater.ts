@@ -6,7 +6,7 @@ import {
 } from "@wormhole-foundation/wormhole-query-sdk";
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ExampleQueriesSolanaVerify } from "../target/types/example_queries_solana_verify";
+import { Updater } from "../target/types/updater";
 import { getWormholeBridgeData } from "./helpers/config";
 import { deriveGuardianSetKey } from "./helpers/guardianSet";
 
@@ -15,25 +15,19 @@ use(chaiAsPromised);
 const fmtTest = (instruction: string, name: string) =>
   `${instruction.padEnd(30)} ${name}`;
 
-describe("example-queries-solana-verify", () => {
+describe("updater", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
 
-  const program = anchor.workspace
-    .ExampleQueriesSolanaVerify as Program<ExampleQueriesSolanaVerify>;
+  const program = anchor.workspace.Updater as Program<Updater>;
 
-  const programPaidBy = (
-    payer: anchor.web3.Keypair
-  ): Program<ExampleQueriesSolanaVerify> => {
+  const programPaidBy = (payer: anchor.web3.Keypair): Program<Updater> => {
     const newProvider = new anchor.AnchorProvider(
       anchor.getProvider().connection,
       new anchor.Wallet(payer),
       {}
     );
-    return new anchor.Program<ExampleQueriesSolanaVerify>(
-      program.idl,
-      newProvider
-    );
+    return new anchor.Program<Updater>(program.idl, newProvider);
   };
 
   const devnetCoreBridgeAddress = new anchor.web3.PublicKey(
@@ -53,7 +47,7 @@ describe("example-queries-solana-verify", () => {
     querySignatures: string[],
     signaturesKeypair: anchor.web3.Keypair,
     totalSignatures: number = 0,
-    p: Program<ExampleQueriesSolanaVerify> = program
+    p: Program<Updater> = program
   ) {
     const signatureData = signaturesToSolanaArray(querySignatures);
     await p.methods

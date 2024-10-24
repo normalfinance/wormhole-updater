@@ -7,7 +7,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-example_queries_solana_verify = "HkDXBFRS9Tv9295d9wEVRL61c1pUXj3WZHiaTNZ9Q7TQ"
+updater = "HkDXBFRS9Tv9295d9wEVRL61c1pUXj3WZHiaTNZ9Q7TQ"
 
 [registry]
 url = "https://api.apr.dev"
@@ -17,7 +17,7 @@ cluster = "Localnet"
 wallet = "tests/keys/pFCBP4bhqdSsrWUVTgqhPsLrfEdChBK17vgFM7TxjxQ.json"
 
 [scripts]
-test = "npx tsc --noEmit && yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/example-queries-solana-verify.ts"
+test = "npx tsc --noEmit && yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/updater.ts"
 
 # [test.validator]
 # url = "https://api.devnet.solana.com"

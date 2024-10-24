@@ -1,5 +1,5 @@
 use crate::{
-    error::ExampleQueriesSolanaVerifyError,
+    error::ErrorCode,
     state::{GuardianSignatures, WormholeGuardianSet},
 };
 use anchor_lang::{
@@ -49,7 +49,7 @@ impl<'info> VerifyQuery<'info> {
             .expect("timestamp overflow");
         require!(
             guardian_set.is_active(&timestamp),
-            ExampleQueriesSolanaVerifyError::GuardianSetExpired
+            ErrorCode::GuardianSetExpired
         );
 
         // Compute the message hash.
@@ -63,7 +63,7 @@ impl<'info> VerifyQuery<'info> {
         require_eq!(
             message_hash.len(),
             QUERY_MESSAGE_LEN,
-            ExampleQueriesSolanaVerifyError::InvalidMessageHash
+            ErrorCode::InvalidMessageHash
         );
 
         let guardian_signatures = &ctx.accounts.guardian_signatures.guardian_signatures;
@@ -75,7 +75,7 @@ impl<'info> VerifyQuery<'info> {
         let quorum = quorum(guardian_keys.len());
         require!(
             guardian_signatures.len() >= quorum,
-            ExampleQueriesSolanaVerifyError::NoQuorum
+            ErrorCode::NoQuorum
         );
 
         let digest = keccak::hash(message_hash.as_slice());
@@ -84,19 +84,19 @@ impl<'info> VerifyQuery<'info> {
         let mut last_guardian_index = None;
         for sig_bytes in guardian_signatures {
             let sig = GuardianSetSig::try_from(sig_bytes.as_slice())
-                .map_err(|_| ExampleQueriesSolanaVerifyError::InvalidSignature)?;
+                .map_err(|_| ErrorCode::InvalidSignature)?;
             // We do not allow for non-increasing guardian signature indices.
             let index = usize::from(sig.guardian_index());
             if let Some(last_index) = last_guardian_index {
                 require!(
                     index > last_index,
-                    ExampleQueriesSolanaVerifyError::InvalidGuardianIndexNonIncreasing
+                    ErrorCode::InvalidGuardianIndexNonIncreasing
                 );
             }
 
             // Does this guardian index exist in this guardian set?
             let guardian_pubkey = guardian_keys.get(index).ok_or_else(|| {
-                error!(ExampleQueriesSolanaVerifyError::InvalidGuardianIndexOutOfRange)
+                error!(ErrorCode::InvalidGuardianIndexOutOfRange)
             })?;
 
             // Now verify that the signature agrees with the expected Guardian's pubkey.
@@ -118,7 +118,7 @@ pub fn verify_query(
     _guardian_set_index: u32,
 ) -> Result<()> {
     let response = QueryResponse::deserialize(&bytes)
-        .map_err(|_| ExampleQueriesSolanaVerifyError::FailedToParseResponse)?;
+        .map_err(|_| ErrorCode::FailedToParseResponse)?;
     msg!(
         "response: version: {}, req_chain: {}, req_id: {:?}, req_version: {}, req_nonce: {}, reqs_len: {}, resp_len: {}",
         response.version,
@@ -202,7 +202,7 @@ fn verify_guardian_signature(
     let recovered = {
         // Recover EC public key (64 bytes).
         let pubkey = secp256k1_recover(digest, sig.recovery_id(), &sig.rs())
-            .map_err(|_| ExampleQueriesSolanaVerifyError::InvalidSignature)?;
+            .map_err(|_| ErrorCode::InvalidSignature)?;
 
         // The Ethereum public key is the last 20 bytes of keccak hashed public key above.
         let hashed = keccak::hash(&pubkey.to_bytes());
@@ -216,7 +216,7 @@ fn verify_guardian_signature(
     // The recovered public key should agree with the Guardian's public key at this index.
     require!(
         recovered == *guardian_pubkey,
-        ExampleQueriesSolanaVerifyError::InvalidGuardianKeyRecovery
+        ErrorCode::InvalidGuardianKeyRecovery
     );
 
     // Done.

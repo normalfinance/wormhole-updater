@@ -1,4 +1,4 @@
-//! Errors that may arise when interacting with the Example Queries Solana Verify Program.
+//! Errors that may arise when interacting with the Updater Program.
 
 use anchor_lang::prelude::error_code;
 
@@ -7,7 +7,7 @@ use anchor_lang::prelude::error_code;
 /// NOTE: All of these error codes when triggered are offset by `ERROR_CODE_OFFSET` (6000). So for
 /// example, `InvalidMessageHash` will return as 6256.
 #[error_code]
-pub enum ExampleQueriesSolanaVerifyError {
+pub enum ErrorCode {
     #[msg("WriteAuthorityMismatch")]
     WriteAuthorityMismatch = 0x100,
 
