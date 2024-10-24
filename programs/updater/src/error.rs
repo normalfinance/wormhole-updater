@@ -2,6 +2,8 @@
 
 use anchor_lang::prelude::error_code;
 
+pub type NormalResult<T = ()> = std::result::Result<T, ErrorCode>;
+
 /// * \>= 0x100  -- Query Verification.
 ///
 /// NOTE: All of these error codes when triggered are offset by `ERROR_CODE_OFFSET` (6000). So for
