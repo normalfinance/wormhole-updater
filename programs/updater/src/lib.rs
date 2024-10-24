@@ -7,6 +7,7 @@ pub mod error;
 mod instructions;
 pub(crate) use instructions::*;
 
+pub mod math;
 pub mod state;
 
 #[program]
