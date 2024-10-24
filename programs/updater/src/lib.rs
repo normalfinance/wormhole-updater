@@ -50,7 +50,9 @@ pub mod updater {
     ) -> Result<()> {
         instructions::verify_query(ctx, bytes, guardian_set_index)
     }
-}
+    }
 
-#[derive(Accounts)]
-pub struct Initialize {}
+    pub fn get_rate(ctx: Context<GetRate>) -> Result<u32> {
+        instructions::get_rate(ctx)
+    }
+}
