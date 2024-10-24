@@ -775,17 +775,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5443807d6dff69373d433ab9ef5378ad8df50ca6298caf15de6e52e24aaf54d5"
 
 [[package]]
-name = "example-queries-solana-verify"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "wormhole-query-sdk",
- "wormhole-raw-vaas",
- "wormhole-solana-consts",
- "wormhole-solana-utils",
-]
-
-[[package]]
 name = "feature-probe"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1771,6 +1760,17 @@ name = "unicode-segmentation"
 version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
+
+[[package]]
+name = "updater"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "wormhole-query-sdk",
+ "wormhole-raw-vaas",
+ "wormhole-solana-consts",
+ "wormhole-solana-utils",
+]
 
 [[package]]
 name = "version_check"
