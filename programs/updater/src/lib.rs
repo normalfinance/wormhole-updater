@@ -37,15 +37,16 @@ pub mod updater {
     pub fn post_signatures(
         ctx: Context<PostSignatures>,
         guardian_signatures: Vec<[u8; 66]>,
-        total_signatures: u8,
+        total_signatures: u8
     ) -> Result<()> {
         instructions::post_signatures(ctx, guardian_signatures, total_signatures)
     }
 
+    // Serves as an example function by simply printing our the request and response data
     pub fn verify_query(
         ctx: Context<VerifyQuery>,
         bytes: Vec<u8>,
-        guardian_set_index: u32,
+        guardian_set_index: u32
     ) -> Result<()> {
         instructions::verify_query(ctx, bytes, guardian_set_index)
     }

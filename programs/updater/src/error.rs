@@ -1,6 +1,6 @@
 //! Errors that may arise when interacting with the Updater Program.
 
-use anchor_lang::prelude::error_code;
+use anchor_lang::prelude::*;
 
 pub type NormalResult<T = ()> = std::result::Result<T, ErrorCode>;
 
