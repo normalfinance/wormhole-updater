@@ -19,8 +19,8 @@ pub mod updater {
     pub fn initialize(
         ctx: Context<Initialize>,
         stake_pool_account: EthereumAddress,
-        allowed_update_staleness: u32,
-        allowed_rate_staleness: u32
+        allowed_update_staleness: i64,
+        allowed_rate_staleness: i64
     ) -> Result<()> {
         instructions::initialize(
             ctx,

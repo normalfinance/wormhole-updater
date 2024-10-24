@@ -1,12 +1,13 @@
 use anchor_lang::prelude::*;
 
 use crate::state::state::{ State, EthereumAddress };
+use crate::state::traits::Size;
 
 pub fn initialize(
     ctx: Context<Initialize>,
     stake_pool_account: EthereumAddress,
-    allowed_update_staleness: u32,
-    allowed_rate_staleness: u32
+    allowed_update_staleness: i64,
+    allowed_rate_staleness: i64
 ) -> Result<()> {
     **ctx.accounts.state = State {
         admin: *ctx.accounts.admin.key,

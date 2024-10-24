@@ -16,11 +16,9 @@ pub struct State {
     pub padding: [u8; 10],
 }
 
-impl State {}
-
 impl Size for State {
-    const SIZE: usize = 992;
+    const SIZE: usize = 992; // TODO: this is not the correct size
 }
 
-#[derive(BorshSerialize, BorshDeserialize, Debug, Clone, Copy, PartialEq)]
+#[derive(BorshSerialize, BorshDeserialize, Debug, Clone, Copy, PartialEq, Default)]
 pub struct EthereumAddress(pub [u8; 32]);

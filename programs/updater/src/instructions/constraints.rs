@@ -26,7 +26,7 @@ pub fn is_valid_signature(
     // SECURITY: defense-in-depth, check again that these are the expected length
     require_eq!(message_hash.len(), QUERY_MESSAGE_LEN, ErrorCode::InvalidMessageHash);
 
-    let guardian_signatures = guardian_signatures.guardian_signatures;
+    let guardian_signatures = &guardian_signatures.guardian_signatures;
 
     // This section is borrowed from https://github.com/wormhole-foundation/wormhole/blob/wen/solana-rewrite/solana/programs/core-bridge/src/processor/parse_and_verify_vaa/verify_encoded_vaa_v1.rs#L72-L103
     // Also similarly used here https://github.com/pyth-network/pyth-crosschain/blob/6771c2c6998f53effee9247347cb0ac71612b3dc/target_chains/solana/programs/pyth-solana-receiver/src/lib.rs#L121-L159
@@ -62,5 +62,5 @@ pub fn is_valid_signature(
     // End borrowed section
 
     // Done.
-    Ok(())
+    Ok(true)
 }
