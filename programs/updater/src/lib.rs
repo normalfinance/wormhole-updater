@@ -1,12 +1,13 @@
 use anchor_lang::prelude::*;
 
+use instructions::*;
+
+use crate::state::state::*;
+
 declare_id!("HkDXBFRS9Tv9295d9wEVRL61c1pUXj3WZHiaTNZ9Q7TQ");
 
 pub mod error;
-
-mod instructions;
-pub(crate) use instructions::*;
-
+pub mod instructions;
 pub mod macros;
 pub mod math;
 pub mod state;
@@ -15,8 +16,18 @@ pub mod state;
 pub mod updater {
     use super::*;
 
-    pub fn initialize(_ctx: Context<Initialize>) -> Result<()> {
-        Ok(())
+    pub fn initialize(
+        ctx: Context<Initialize>,
+        stake_pool_account: EthereumAddress,
+        allowed_update_staleness: u32,
+        allowed_rate_staleness: u32
+    ) -> Result<()> {
+        instructions::initialize(
+            ctx,
+            stake_pool_account,
+            allowed_update_staleness,
+            allowed_rate_staleness
+        )
     }
 
     pub fn close_signatures(ctx: Context<CloseSignatures>) -> Result<()> {
